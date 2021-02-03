@@ -6,6 +6,8 @@ import refreshToToken from '../spotify/refreshToToken';
 export default function ipcStuff(clientId: string) {
   let refreshToken = '';
   let accessToken: string;
+  let discordToken: string;
+  let currentArtist = '';
 
   async function getToken(refresh_token: string) {
     try {
@@ -42,22 +44,42 @@ export default function ipcStuff(clientId: string) {
     await keytar.setPassword('lta', 'discord-token', args);
   });
 
-  ipcMain.on('toggle-status', async (_, args) => {
-    let timer;
-    const discordToken =
-      (await keytar.getPassword('lta', 'discord-token')) ?? '';
-    let currentArtist = '';
-    if (args === 'start') {
-      timer = setInterval(() => {
-        setDcStatus(accessToken, discordToken, currentArtist)
-          .then((data) => {
-            currentArtist = data;
-            return 0;
-          })
-          .catch((error) => console.error(error));
+  function setStatus() {
+    setDcStatus(accessToken, discordToken, currentArtist)
+      .then((data) => {
+        currentArtist = data;
+        return 0;
+      })
+      .catch((error) => console.error(error));
+  }
+
+  class Timer {
+    timer: number;
+
+    constructor() {
+      this.timer = 0;
+    }
+
+    start() {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.timer = <any>setInterval(() => {
+        setStatus();
       }, 1000);
+    }
+
+    stop() {
+      clearInterval(this.timer);
+    }
+  }
+
+  const timer = new Timer();
+
+  ipcMain.on('toggle-status', async (_, args) => {
+    discordToken = (await keytar.getPassword('lta', 'discord-token')) ?? '';
+    if (args === 'start') {
+      timer.start();
     } else {
-      clearInterval(timer); // have to make a class for this
+      timer.stop();
     }
   });
 }
