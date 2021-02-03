@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import './App.global.css';
 
@@ -18,6 +18,10 @@ export default function App() {
   //     ipcRenderer.removeAllListeners('discord-token-status');
   //   };
   // }, []);
+
+  useEffect(() => {
+    ipcRenderer.send('check-for-spotify-token');
+  }, []);
 
   const changeToken = () => {
     ipcRenderer.send('discord-token-save', discordToken);

@@ -27,11 +27,6 @@ export default function ipcStuff(clientId: string) {
     }, 3550 * 1000);
   }
 
-  (async () => {
-    refreshToken = (await keytar.getPassword('lta', 'refresh_token')) ?? '';
-    getToken(refreshToken);
-  })();
-
   // ipcMain.on('discord-token-status', (event) => {
   //   if (store.get('discord-token')) {
   //     event.reply('discord-token-status', '1');
@@ -42,6 +37,12 @@ export default function ipcStuff(clientId: string) {
 
   ipcMain.on('discord-token-save', async (_, args) => {
     await keytar.setPassword('lta', 'discord-token', args);
+    discordToken = (await keytar.getPassword('lta', 'discord-token')) ?? '';
+  });
+
+  ipcMain.on('check-for-spotify-token', async () => {
+    refreshToken = (await keytar.getPassword('lta', 'refresh_token')) ?? '';
+    getToken(refreshToken);
   });
 
   function setStatus() {
