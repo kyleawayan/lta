@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import './styles/App.global.css';
-import styles from './styles/holyGrail.css';
+import styles from './styles/holyGrail.module.css';
 
 export default function App() {
   // const [discordTokenStatus, setDiscordTokenStatus] = useState(true);

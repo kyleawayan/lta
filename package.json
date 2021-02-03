@@ -30,8 +30,8 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "lta",
+    "appId": "org.kylan.lta",
     "files": [
       "dist/",
       "node_modules/",
@@ -86,27 +86,15 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "kyleawayan",
+      "repo": "lta"
     }
   },
   "repository": "https://github.com/kyleawayan/lta",
   "author": "Kyle Awayan",
-  "contributors": [
-    {
-      "name": "Amila Welihinda",
-      "email": "amilajack@gmail.com",
-      "url": "https://github.com/amilajack"
-    },
-    {
-      "name": "John Tran",
-      "email": "jptran318@gmail.com",
-      "url": "https://github.com/jooohhn"
-    }
-  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
+    "url": "https://github.com/kyleawayan/lta/issues"
   },
   "keywords": [
     "electron",
@@ -119,7 +107,7 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/kyleawayan/lta",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {
