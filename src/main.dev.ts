@@ -15,7 +15,7 @@ import { app, BrowserWindow, ipcMain, shell, Tray, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import * as keytar from 'keytar';
-import MenuBuilder from './menu';
+// import MenuBuilder from './menu';
 
 import authorizeWithSpotifyAndStoreRefreshToken from './spotify/auth';
 import ipcStuff from './lta/ipcStuff';
@@ -159,8 +159,9 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
+  mainWindow.setMenu(null);
+  // const menuBuilder = new MenuBuilder(mainWindow);
+  // menuBuilder.buildMenu();
 
   // Open urls in the user's browser
   mainWindow.webContents.on('new-window', (event, url) => {

@@ -1,0 +1,23 @@
+.holyGrail {
+  display: grid;
+  height: 100vh;
+  grid-template: auto 1fr auto / auto 1fr auto;
+}
+
+.header {
+  grid-column: 1 / 4;
+}
+
+.leftSidebar {
+  grid-column: 2 / 2;
+}
+
+.rightSidebar {
+  grid-column: 3 / 4;
+}
+
+.footer {
+  text-align: center;
+  grid-column: 1 / 4;
+  padding: 2rem;
+}
