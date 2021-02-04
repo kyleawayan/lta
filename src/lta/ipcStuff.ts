@@ -4,13 +4,13 @@ import setDcStatus from './setDcStatus';
 import refreshToToken from '../spotify/refreshToToken';
 
 export default function ipcStuff(clientId: string) {
-  let refreshToken = '';
   let accessToken: string;
   let discordToken: string;
   let currentArtist = '';
   let running = false;
 
   async function getToken(refresh_token: string) {
+    let validRefreshToken: string;
     try {
       const accessTokenResponse = await refreshToToken(refresh_token, clientId);
       await keytar.setPassword(
@@ -19,12 +19,13 @@ export default function ipcStuff(clientId: string) {
         accessTokenResponse.refresh_token
       );
       accessToken = accessTokenResponse.access_token;
+      validRefreshToken = accessTokenResponse.refresh_token;
     } catch (error) {
       console.error(error);
       return;
     }
     setTimeout(() => {
-      getToken(refreshToken);
+      getToken(validRefreshToken);
     }, 3550 * 1000);
   }
 
@@ -42,8 +43,9 @@ export default function ipcStuff(clientId: string) {
   });
 
   ipcMain.handle('check-for-spotify-token', async () => {
-    refreshToken = (await keytar.getPassword('lta', 'refresh_token')) ?? '';
-    getToken(refreshToken);
+    const initRefreshToken =
+      (await keytar.getPassword('lta', 'refresh_token')) ?? '';
+    getToken(initRefreshToken);
   });
 
   ipcMain.handle('check-current-artist', () => {
