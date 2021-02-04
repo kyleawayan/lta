@@ -8,6 +8,7 @@ export default function ipcStuff(clientId: string) {
   let accessToken: string;
   let discordToken: string;
   let currentArtist = '';
+  let running = false;
 
   async function getToken(refresh_token: string) {
     try {
@@ -35,14 +36,22 @@ export default function ipcStuff(clientId: string) {
   //   }
   // });
 
-  ipcMain.on('discord-token-save', async (_, args) => {
+  ipcMain.handle('discord-token-save', async (_, args) => {
     await keytar.setPassword('lta', 'discord-token', args);
     discordToken = (await keytar.getPassword('lta', 'discord-token')) ?? '';
   });
 
-  ipcMain.on('check-for-spotify-token', async () => {
+  ipcMain.handle('check-for-spotify-token', async () => {
     refreshToken = (await keytar.getPassword('lta', 'refresh_token')) ?? '';
     getToken(refreshToken);
+  });
+
+  ipcMain.handle('check-current-artist', () => {
+    return currentArtist;
+  });
+
+  ipcMain.handle('check-if-running', () => {
+    return running;
   });
 
   function setStatus() {
@@ -51,7 +60,12 @@ export default function ipcStuff(clientId: string) {
         currentArtist = data;
         return 0;
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        timer.stop();
+        running = false;
+        console.error(error);
+      });
   }
 
   class Timer {
@@ -62,6 +76,7 @@ export default function ipcStuff(clientId: string) {
     }
 
     start() {
+      running = true;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.timer = <any>setInterval(() => {
         setStatus();
@@ -70,12 +85,13 @@ export default function ipcStuff(clientId: string) {
 
     stop() {
       clearInterval(this.timer);
+      running = false;
     }
   }
 
   const timer = new Timer();
 
-  ipcMain.on('toggle-status', async (_, args) => {
+  ipcMain.handle('toggle-status', async (_, args) => {
     discordToken = (await keytar.getPassword('lta', 'discord-token')) ?? '';
     if (args === 'start') {
       timer.start();

@@ -28,7 +28,9 @@ export default async function setStatus(
               data: {
                 custom_status: {
                   text: `Listening to ${spotifyResponse.data.item.artists[0].name}`,
-                  expires_at: new Date(currentTime.getTime() + 5 * 60 * 1000),
+                  expires_at: new Date(
+                    currentTime.getTime() + 1440 * 60 * 1000
+                  ),
                 },
               },
             });

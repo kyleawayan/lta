@@ -125,7 +125,7 @@ const createWindow = async () => {
     }
   })();
 
-  ipcMain.on('sign-out', async () => {
+  ipcMain.handle('sign-out', async () => {
     await keytar.deletePassword('lta', 'refresh_token');
     authorizeWithSpotifyAndStoreRefreshToken(
       mainWindow as BrowserWindow,
