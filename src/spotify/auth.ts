@@ -58,18 +58,24 @@ async function waitForAccept(
     const app = express();
     let server: Server;
 
-    app.get('/callback', (req, res) => {
-      if (req.query.code && req.query.state === state) {
-        res.send('OK');
-        server.close(() => console.log('[🟢 lta]', 'server closed'));
-        resolve({
-          code: req.query.code as string,
-          state: req.query.state as string,
-        });
-      } else {
-        reject(new Error('authorization acceptance failed'));
+    app.get(
+      '/callback',
+      (
+        req: { query: { code: string; state: string } },
+        res: { send: (arg0: string) => void }
+      ) => {
+        if (req.query.code && req.query.state === state) {
+          res.send('OK');
+          server.close(() => console.log('[🟢 lta]', 'server closed'));
+          resolve({
+            code: req.query.code as string,
+            state: req.query.state as string,
+          });
+        } else {
+          reject(new Error('authorization acceptance failed'));
+        }
       }
-    });
+    );
 
     server = app.listen(port, () => {
       console.log('[​🟡​​ lta]', 'waiting on port 4444 for callback...');

@@ -79,13 +79,13 @@ const createWindow = async () => {
 
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: 'Show app',
+      label: 'show lta',
       click() {
         mainWindow?.show();
       },
     },
     {
-      label: 'Quit',
+      label: 'quit',
       click() {
         app.quit();
       },

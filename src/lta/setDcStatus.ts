@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+type CustomStatus = {
+  text: string;
+  expires_at: Date;
+} | null;
 export default async function setStatus(
   spotify_token: string,
   discord_token: string,
@@ -16,8 +20,17 @@ export default async function setStatus(
         },
       })
         .then((spotifyResponse) => {
+          let toSetDcStatusString = '';
+          let dataRequest: CustomStatus = null;
+          if (spotifyResponse.status !== 204) {
+            toSetDcStatusString = spotifyResponse.data.item.artists[0].name;
+            dataRequest = {
+              text: `Listening to ${toSetDcStatusString}`,
+              expires_at: new Date(currentTime.getTime() + 1440 * 60 * 1000),
+            };
+          }
           // eslint-disable-next-line promise/always-return
-          if (currentArtist !== spotifyResponse.data.item.artists[0].name) {
+          if (currentArtist !== toSetDcStatusString) {
             axios({
               method: 'patch',
               url: 'https://discord.com/api/v8/users/@me/settings',
@@ -25,17 +38,11 @@ export default async function setStatus(
                 Authorization: discord_token,
                 'Content-Type': 'application/json',
               },
-              data: {
-                custom_status: {
-                  text: `Listening to ${spotifyResponse.data.item.artists[0].name}`,
-                  expires_at: new Date(
-                    currentTime.getTime() + 1440 * 60 * 1000
-                  ),
-                },
-              },
+              data: { custom_status: dataRequest },
             });
+            console.log('[🟢 lta] request made to discord');
           }
-          resolve(spotifyResponse.data.item.artists[0].name);
+          resolve(toSetDcStatusString);
         })
         .catch((error) => reject(error));
     } catch (error) {
