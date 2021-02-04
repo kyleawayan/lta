@@ -1,7 +1,7 @@
 {
-  "name": "lta",
-  "productName": "lta",
-  "description": "show currently playing artist as discord status",
+  "name": "electron-react-boilerplate",
+  "productName": "ElectronReact",
+  "description": "Electron application boilerplate based on React, React Router, Webpack, React Fast Refresh for rapid application development",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
     "build:main": "cross-env NODE_ENV=production webpack --config ./.erb/configs/webpack.config.main.prod.babel.js",
@@ -31,7 +31,7 @@
   },
   "build": {
     "productName": "lta",
-    "appId": "org.kylan.lta",
+    "appId": "com.kylan.lta",
     "files": [
       "dist/",
       "node_modules/",
@@ -159,6 +159,7 @@
     "@testing-library/react": "^11.2.2",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/express": "^4.17.11",
     "@types/history": "4.7.6",
     "@types/jest": "^26.0.15",
     "@types/node": "14.14.10",
