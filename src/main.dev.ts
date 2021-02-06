@@ -104,6 +104,10 @@ const createWindow = async () => {
       nodeIntegration: true,
     },
     title: 'lta',
+    transparent: true,
+    vibrancy: 'dark',
+    backgroundColor: '#00ffffff',
+    frame: false,
   });
 
   // Start IPC Listeners
