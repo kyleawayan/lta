@@ -53,11 +53,12 @@ export default async function setStatus(
               text: `Listening to ${toSetDcStatusString}`,
               expires_at: new Date(currentTime.getTime() + 1440 * 60 * 1000),
             };
+          } else {
+            dataRequest = {
+              text: `Listening to ${toSetDcStatusString} for ${diffMins} minutes`,
+              expires_at: new Date(currentTime.getTime() + 1440 * 60 * 1000),
+            };
           }
-          dataRequest = {
-            text: `Listening to ${toSetDcStatusString} for ${diffMins} minutes`,
-            expires_at: new Date(currentTime.getTime() + 1440 * 60 * 1000),
-          };
         }
 
         if (currentArtist !== toSetDcStatusString) {
