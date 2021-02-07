@@ -13,7 +13,7 @@ export default function LtaLogo() {
         strokeMiterlimit: 2,
       }}
     >
-      <g
+      {/* <g
         transform="matrix(1.5622,0,0,1.5622,-624.255,-1561.3)"
         style={{ fill: 'white', fillRule: 'nonzero' }}
       >
@@ -35,7 +35,7 @@ export default function LtaLogo() {
             // style="fill:white;fill-rule:nonzero;"
           />
         </g>
-      </g>
+      </g> */}
     </svg>
   );
 }

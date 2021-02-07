@@ -88,10 +88,11 @@ const createWindow = async () => {
       label: 'quit',
       click() {
         app.quit();
+        app.exit(0);
       },
     },
   ]);
-  trayIcon = new Tray(getAssetPath('icon.png'));
+  trayIcon = new Tray(getAssetPath('icons/16x16.png'));
   trayIcon.setTitle('lta');
   trayIcon.setContextMenu(contextMenu);
 
@@ -107,7 +108,7 @@ const createWindow = async () => {
     transparent: true,
     vibrancy: 'dark',
     backgroundColor: '#00ffffff',
-    frame: false,
+    titleBarStyle: 'hiddenInset',
   });
 
   // Start IPC Listeners
@@ -155,12 +156,9 @@ const createWindow = async () => {
     }
   });
 
-  mainWindow.on('minimize', () => {
+  mainWindow.on('close', (event) => {
+    event.preventDefault();
     mainWindow?.hide();
-  });
-
-  mainWindow.on('closed', () => {
-    mainWindow = null;
   });
 
   mainWindow.setMenu(null);
@@ -191,9 +189,3 @@ app.on('window-all-closed', () => {
 });
 
 app.whenReady().then(createWindow).catch(console.log);
-
-app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) createWindow();
-});
