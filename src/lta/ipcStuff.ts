@@ -63,6 +63,9 @@ export default function ipcStuff(clientId: string) {
         return 0;
       })
       .catch((error) => {
+        if (error.code === 'ETIMEDOUT') {
+          return;
+        }
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         timer.stop();
         running = false;

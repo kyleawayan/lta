@@ -29,9 +29,7 @@ export default async function setStatus(
     const currentTime = new Date();
     const timeListeningToArtist =
       currentTime.getTime() - listeningToArtistTime.getTime();
-    const diffMins = Math.round(
-      ((timeListeningToArtist % 86400000) % 3600000) / 60000
-    );
+    let diffMins = Math.round(timeListeningToArtist / 60000);
 
     (async () => {
       try {
@@ -64,6 +62,11 @@ export default async function setStatus(
         if (currentArtist !== toSetDcStatusString) {
           listeningToArtistTime = new Date();
           minutesCheck = 0;
+          diffMins = 0;
+          dataRequest = {
+            text: `Listening to ${toSetDcStatusString}`,
+            expires_at: new Date(currentTime.getTime() + 1440 * 60 * 1000),
+          };
           await changeDcStatus(discord_token, dataRequest);
           resolve(toSetDcStatusString);
         } else if (minutesCheck !== diffMins) {
