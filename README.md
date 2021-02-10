@@ -1,4 +1,5 @@
 # lta
+# WARNING: My account has been disabled recently. This app may have caused this so please do not use this, only refer to this for educational purposes only.
 
 show currently playing artist as discord status
 
