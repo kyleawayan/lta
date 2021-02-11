@@ -1,5 +1,6 @@
 # lta
-# WARNING: My account has been disabled recently. This app may have caused this so please do not use this, only refer to this for educational purposes only.
+# WARNING: My Discord account has been disabled recently. This app may have caused this so please do not use this, only refer to this for educational purposes only.
+Please check out lta's successor, [lta-fav](https://github.com/kyleawayan/lta-fav), that can only display one artist with Discord Rich Presence.
 
 show currently playing artist as discord status
 
